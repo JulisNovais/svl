@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 export function FormBook() {
   const [validated, setValidated] = useState(false);
   let [estados, setEstados] = useState([]);
-  let [cidades, setCidades] = useState([])
+  let [cidades, setCidades] = useState([]);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -16,7 +16,6 @@ export function FormBook() {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
   };
 
@@ -32,23 +31,22 @@ export function FormBook() {
       });
   };
 
-  const fechCidades = sigla => {
+  const fechCidades = (sigla) => {
     fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${sigla}/municipios`)
-    .then((response) => response.json())
-    .then((data) => {
-      //console.log('cidades', data)
-      setCidades(data)
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        let cidadesOption = data.map(city => <option>{city.nome}</option>)
+        setCidades(cidadesOption)
+      });
   };
 
   useEffect(() => {
-    console.log("useEffect");
     fetchEstados();
   }, []);
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
-      {console.log("return")}
+      
 
       <Row className="mb-3">
         <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -57,7 +55,7 @@ export function FormBook() {
             required
             type="text"
             placeholder="digite o título do livro"
-            //defaultValue="Mark"
+            
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
@@ -67,7 +65,7 @@ export function FormBook() {
             required
             type="text"
             placeholder="digite o autor do livro"
-            //defaultValue="Otto"
+            
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
@@ -79,30 +77,28 @@ export function FormBook() {
             aria-label="Default select example"
             onChange={(e) => {
               let sigla = e.target.value;
-
-              fechCidades(sigla)
+              fechCidades(sigla);
             }}
           >
             <option>Selecione</option>
-
             {estados.map((estado) => (
               <option value={estado.sigla}> {estado.nome}</option>
             ))}
+            
+
           </Form.Select>
         </Form.Group>
-
-        {/* <Form.Group as={Col} md="3" controlId="validationCustom04">
+        <Form.Group as={Col} md="3" controlId="validationCustom04">
           <Form.Label>Cidades</Form.Label>
-          <Form.Select
-            aria-label="Default select example"
-          >
-            <option>Selecione</option>
+          <Form.Select aria-label="Default select example">
+          <option>Selecione</option>
+          {cidades}
 
-            {estados.map((cidade) => (
-              <option value={cidade.sigla}> {cidade.nome}</option>
-            ))}
           </Form.Select>
-        </Form.Group> */}''
+        </Form.Group>
+        ''
+
+
       </Row>
       <Button type="submit">Submit form</Button>
     </Form>
