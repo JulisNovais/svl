@@ -1,25 +1,39 @@
-import React from 'react'
-import BootstrapTable from 'react-bootstrap-table-next'
+import React, { useEffect, useState } from "react";
+import BootstrapTable from "react-bootstrap-table-next";
 
-export default function bookTable() {
-    const columns = [{
-        dataField: 'id',
-        text: 'Product ID'
-      }, {
-        dataField: 'name',
-        text: 'Product Name'
-      }, {
-        dataField: 'price',
-        text: 'Product Price'
-      }];
+export default function BookTable() {
 
-      const products = [{
+  let [posts, setPosts] = useState([])
 
-      }]
+  const columns = [
+    {
+      dataField: 'id',
+      text: 'Id'
+    } , {
+      dataField: 'title',
+      text: 'Titulo'
+    } , {
+      dataField: 'body',
+      text: 'Texto'
+    }
+  ]
+
+  const getPosts = () => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => response.json())
+    .then(data => {
+      console.log('posts' , data)
+      setPosts (data)
+    })
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, [])
 
   return (
-    <div><BootstrapTablepTable keyField='id' data={ products } columns={ columns } />
+    <div>
+      <BootstrapTable keyField="id" data={posts} columns={columns} />
     </div>
-    
-  )
+  );
 }
