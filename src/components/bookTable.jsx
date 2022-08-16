@@ -1,39 +1,81 @@
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from 'react-bootstrap-table2-paginator';
+
+
+// export default function BookTable() {
+
+//   let [posts, setPosts] = useState([])
+
+//   const columns = [
+//     {
+//       dataField: 'id',
+//       text: 'Id'
+//     } , {
+//       dataField: 'title',
+//       text: 'Titulo'
+//     } , {
+//       dataField: 'body',
+//       text: 'Texto'
+//     }
+//   ]
+
+//   const getPosts = () => {
+//     fetch('https://jsonplaceholder.typicode.com/posts')
+//     .then(response => response.json())
+//     .then(data => {
+//       console.log('posts' , data)
+//       setPosts (data)
+//     })
+//   }
+
+//   useEffect(() => {
+//     getPosts();
+//   }, [])
+
+//   return (
+//     <div>
+//       <BootstrapTable keyField="id" data={posts} columns={columns}  />
+//     </div>
+//   );
+// }
 
 export default function BookTable() {
 
-  let [posts, setPosts] = useState([])
+  let [comments, setComments] = useState([])
 
   const columns = [
     {
       dataField: 'id',
       text: 'Id'
     } , {
-      dataField: 'title',
-      text: 'Titulo'
+      dataField: 'name',
+      text: 'Nome'
+    } , {
+      dataField: 'email',
+      text: 'E-mail'
     } , {
       dataField: 'body',
       text: 'Texto'
     }
   ]
 
-  const getPosts = () => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+  const getComments = () => {
+    fetch('https://jsonplaceholder.typicode.com/comments')
     .then(response => response.json())
     .then(data => {
-      console.log('posts' , data)
-      setPosts (data)
+      console.log('comments' , data)
+      setComments (data)
     })
   }
 
   useEffect(() => {
-    getPosts();
+    getComments();
   }, [])
 
   return (
     <div>
-      <BootstrapTable keyField="id" data={posts} columns={columns} />
+      <BootstrapTable keyField="id" data={comments} columns={columns} pagination={ paginationFactory() }  />
     </div>
   );
 }
