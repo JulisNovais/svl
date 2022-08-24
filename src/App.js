@@ -3,6 +3,7 @@ import "./App.css";
 import { FormBook } from "./components/FormBook";
 import { NavBar } from "./components/NavBar";
 import BookTable from "./components/BookTable";
+import { Routes, Route, Link } from "react-router-dom";
 
 
 function App() {
@@ -10,8 +11,11 @@ function App() {
     <div>
       <NavBar />
       <div className="container">
-        <FormBook />
-        <BookTable />   
+      <Routes>
+        <Route path="/form" element={<FormBook />} />
+        <Route path="/table" element={<BookTable />} />
+      </Routes>
+        
       </div>
     </div>
   );
